@@ -16,14 +16,15 @@ function loadHTMLTable(data){
         table.innerHTML = '<tr><td class = "no-data" colspan ="5">No Data</td></tr>';
         return;
     }
+    
     let tableHtml = '';
 
-    data.forEach(function ({id, date_added, task}) {
+    data.forEach(function ({id, date_added, task, important}) {
         tableHtml += "<tr>";
         tableHtml += `<td>${id}</td>`
-        tableHtml += `<td>${new Date(date_added).toLocaleString()}</td>`
+        tableHtml += `<td>${new Date(date_added).toLocaleString().split(',')[0]}</td>`
         tableHtml += `<td>${task}</td>`
-        // tableHtml += `<td>${ important }</td>`
+        tableHtml += `<td>${ important }</td>`
         // tableHtml += `<td>${ day }</td>`
         // tableHtml += `<td>${note}</td>`
         //tableHtml += `<td>${ duedate }</td>`
@@ -49,9 +50,16 @@ submit.onclick = function() {
     const task = taskInput.value;
     taskInput.value = '';
 
-    // const importantInput = document.querySelector('.starcheck');
-    // const important = importantInput.checked;
-    // importantInput.value = '';
+    const importantInput = document.querySelector('.starcheck');
+    const importantvalue = importantInput.checked;
+    
+    if(importantvalue === true){
+        importantInput.value = 1;
+    }else if (importantvalue ===false){
+        importantInput.value = 0;
+    }
+    
+    importantvalue.checked = 'false';
 
     // const mydayInput = document.querySelector('.checkAddDay');
     // const myday = mydayInput.checked;
@@ -66,13 +74,15 @@ submit.onclick = function() {
             'Content-type': 'application/json'
         },
         method: 'POST',
-         body: JSON.stringify({ task : task})
-          
+         body: JSON.stringify({
+                   task : task, 
+              important : importantInput.value
+             })
     })
     .then(response => response.json())
     .then(data => insertRowIntoTable(data['data']));
-
 }
+
 function insertRowIntoTable(data) {
     const table = document.querySelector('table tbody');
     const isTableData = table.querySelector('.no-data');
