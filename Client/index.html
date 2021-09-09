@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel='stylesheet' href = 'style.css'>
+</head>
+<body>
+    <div class = 'container'>
+        <div class = 'navarea col'></div>
+        <div class = 'content col'> </div>      
+    </div>
+    <main>
+        <!-- <label>Name:</label>
+        <input type="text" id="name-input">
+        <button id="add-name-btn">Add Name</button> -->
+       
+        <table id="table">
+            <thead>
+                <th>ID</th>
+                <th>Date Added</th>
+                <th>Task</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+       
+        <section hidden id="update-row">
+            <label>Name:</label>
+            <input type="text" id="update-task-input">
+            <button id="update-row-btn">Update</button>
+        </section>
+    </main> 
+<div class = 'enterBookPopup'>
+    <div class = 'formPopup' id = 'popupForm'>
+        <form  class = 'formContainer'>
+            <div class = 'icondiv'>
+                <label >
+                <input type = 'checkbox' class = 'starcheck' >
+                <section class = 'staricon'>
+                    <i id = 'starbtn' class = 'material-icons md-36 starcheck'></i>
+                </section>
+                </label> 
+                
+                <i class = 'material-icons md-36 submiticon' name = 'submit'>done</i>
+                <i class = 'material-icons md-36 closeicon'>cancel</i>
+            </div>
+            <div class = 'taskentry'>
+                <label for = 'title'>Task</label>
+                <input type = 'text' class = 'task' placeholder='Task' name = 'task'>
+            </div>
+            <div>
+                <label class = 'due'> Due Date </label>
+                <input class = 'dateicon' type = 'date' id = 'duedate' name = 'duedate'></input>
+            </div>
+            <div class = 'addToDay'>
+                <label class = 'checkcontainer'>Add to My Day
+                <input type = 'checkbox' class = 'checkAddDay' name = 'daily'>
+                <span class = 'checkmark'></span>
+                </label>
+            </div>
+            <textarea class = 'textarea' placeholder='Add Note' name = 'note'></textarea>
+        </form>
+    </div>
+</div>
+    <div>
+        <input placeholder="search by name" id="search-input" >
+        <button id="search-btn">Search</button>
+     </div>
+  <script type="text/javascript" src = 'render.js' ></script> 
+  <script type="text/javascript" src = 'index.js' ></script> 
+   
+</body>
+</html>
