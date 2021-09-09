@@ -44,6 +44,7 @@ const cancelform = document.querySelector('.closeicon');
 //CREATE
 const submit = document.querySelector('.submiticon');
 submit.onclick = function() {
+    form.style.display = 'none';
     const taskInput = document.querySelector('.task');
     const task = taskInput.value;
     taskInput.value = '';
@@ -104,9 +105,6 @@ function insertRowIntoTable(data) {
           .then(response => response.json())
           .then(data => loadHTMLTable(data['data']));
 
-    renderNavPane();
-    renderPages('My Day');
-    renderAdd();
     loadHTMLTable();
 
 
@@ -148,15 +146,33 @@ function handleEditRow(id) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-        alert('yay');
+            tableHtml = '';
+            fetch('http://localhost:5000/getAll')
+                  .then(response => response.json())
+                  .then(data => loadHTMLTable(data['data']));
+        
+            loadHTMLTable();
         }
     })
-})
+    })
 
+}
+//DELETE
+function deleteRowById(id){
+    fetch('http://localhost:5000/delete/'+ id, {
+        method: 'DELETE'
+        })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            tableHtml = '';
+            fetch('http://localhost:5000/getAll')
+                  .then(response => response.json())
+                  .then(data => loadHTMLTable(data['data']));
+        
+            loadHTMLTable();
+        }
+    });
 }
 
 
-  // / should hide HTML and update page.To refresh the data without 
-//reloading the page we need to rebuild the table each time in 
-//javascript and then render it to the dom. 
- 

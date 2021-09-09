@@ -1,6 +1,6 @@
 
  /***********USING GOOGLE ICONS FOR 'icon'*********/
- const navdata = [  {name:'Search',   color: '#ee82ee', icon:'search'},       
+ const navdata = [  
                     {name:'My Day',   color: '#f1f163', icon:'wb_sunny',images: 'para.jpg',textcolor:'#3d4244' },
                     {name:'Important',color: '#eea4dc', icon:'star_border'},
                     {name:'Planned',  color: '#56e7c3', icon:'calendar_today'},
@@ -20,13 +20,14 @@ const content = document.querySelector('.content');
 
         const newdiv = document.createElement('div');
         newdiv.classList.add('navdiv');
-        newdiv.id = (navname);
+        newdiv.id = ('nav-'+[i]);
         newdiv.style.setProperty('--ihover', navcolor);
         newdiv.addEventListener('click',() => {
             content.innerHTML ='';
             renderPages(navname)
             renderAdd()
         });
+        
 
         const newicon = document.createElement('div');
         const newtext = document.createElement('div');
@@ -41,7 +42,7 @@ const content = document.querySelector('.content');
         newdiv.appendChild(newtext);
 
         navarea.appendChild(newdiv);
-    }; 
+    };
 }
 
 function renderPages(design){

@@ -36,13 +36,24 @@ app.post('/insert', (request, response) => {
 app.patch('/update', (request, response) => {
     const { id, task } = request.body;
     const db = dbCon.getDbInstance();
-
     const result = db.updateTaskById(id, task);
     
     result
     .then(data => response.json({success : data}))
     .catch(err => console.log(err));
 });
+// delete
+app.delete('/delete/:id', (request, response) => {
+    const { id } = request.params;
+    const db = dbCon.getDbInstance();
+    const result = db.deleteRowById(id);
+    
+    result
+    .then(data => response.json({success : data}))
+    .catch(err => console.log(err));
+});
+
+
 
 
 app.listen(process.env.PORT, () => console.log('app is running'));

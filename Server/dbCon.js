@@ -61,6 +61,7 @@ async insertNewTask(task) {
         console.log(error);
     }
 }
+//UPDATE
 async updateTaskById(id, task) {
     try {
         id = parseInt(id, 10); 
@@ -79,7 +80,27 @@ async updateTaskById(id, task) {
         return false;
     }
 }
+//DELETE
+async deleteRowById(id){
+    try{
+        id = parseInt(id, 10);
+        const response = await new Promise((resolve, reject) => {
+            const query = "DELETE FROM tasklist WHERE id = ?";
+
+            connection.query(query, [id] , (err, result) => {
+                if (err) reject(new Error(err.message));
+                resolve(result.affectedRows);
+            })
+        });
+
+        return response === 1 ? true : false;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
 }
+}
+
 
 
 
