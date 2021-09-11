@@ -12,7 +12,20 @@
     <div class = 'container'>
         <div class = 'header'>Planner</div>
         <div class = 'navarea '></div>
-        <div class = 'content '></div>      
+        <div class = 'content '>
+            <div class = 'sidediv'></div>
+            <div class = 'pagediv'>
+                <table id='table'>
+                    <tbody></tbody>
+                </table>
+            </div>
+     
+            <section hidden id="update-row">
+                <label>Name:</label>
+                <input type="text" id="update-task-input">
+                <button id="update-row-btn">Update</button>
+            </section>
+        </div>      
     </div>
     
 <div class = 'enterBookPopup'>
@@ -43,7 +56,6 @@
                 <span class = 'checkmark'></span>
                 </label>
             </div>
-            <textarea class = 'textarea' placeholder='Add Note' name = 'note'></textarea>
         </form>
     </div>
 </div> 

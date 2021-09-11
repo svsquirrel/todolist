@@ -2,14 +2,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     renderNavPane();
     displayPage(id = 'nav-0');
-   // renderPages('My Day');
-   // renderAdd();
+    renderPage( id = 'nav-0');
+   
     fetch('http://localhost:5000/getAll')
           .then(response => response.json())
           .then(data => loadHTMLTable(data['data']));
 });
 
- 
+ //READ
 function loadHTMLTable(data){
     const table = document.querySelector('table tbody');
     

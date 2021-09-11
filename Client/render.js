@@ -1,7 +1,7 @@
 
  /***********USING GOOGLE ICONS FOR 'icon'*********/
  const navdata = [ 
-                    {name:'My Day',   color: '#e9bd5f', icon:'wb_sunny',images: 'para.jpg',textcolor:'#3d4244' },
+                    {name:'My Day',   color: '#e9bd5f', icon:'wb_sunny' },
                     {name:'Tasks',    color: '#6a53f0', icon:'home'},
                     {name:'Important',color: '#e940e9', icon:'star_border'},
                     {name:'Planned',  color: '#2fb1b1', icon:'calendar_today'},
@@ -9,7 +9,6 @@
 ];
 
 function renderNavPane() {
-
     const navarea = document.querySelector('.navarea');
     const content = document.querySelector('.content');
         for (let i = 0; i< navdata.length; i++){
@@ -53,7 +52,6 @@ function displayPage(id){
         div.classList.remove('active');
         thisdiv.classList.add('active');
     });
-    
 }
 
 function renderPage(id){
@@ -61,62 +59,25 @@ function renderPage(id){
     navdata.id = id;
     
     const navcolor = navdata[id].color;
-    console.log(navdata.id);
-    const content = document.querySelector('.content');
-    const pagediv = document.createElement('div');
-          pagediv.classList.add('pagediv');
-          pagediv.style.setProperty('--icolor', navcolor);
-    
-    content.appendChild(pagediv);
+    const sidediv = document.querySelector('.sidediv');
    
+    const addbtn =  document.createElement('button');
+          addbtn.classList.add('addbtn');
+          addbtn.textContent = 'Add a task'; 
+          addbtn.style.setProperty('--icolor',navcolor);
+          addbtn.addEventListener('click', displayTaskForm);
+          sidediv.appendChild(addbtn);
+    
+    const pagediv = document.querySelector('.pagediv');
+    pagediv.style.setProperty('--icolor', navcolor);     
+ 
 }
+function displayTaskForm(){
+    const form = document.querySelector('#popupForm');
+    const inputs = document.getElementsByTagName('input');
+    for (var i in inputs)
+        if (inputs[i].type == 'checkbox')inputs[i].checked = false;
+    form.style.display = 'block';
 
-// function renderPages(design){
-//     const content = document.querySelector('.content');
-//     const pagediv = document.createElement('div');
-//     const displaydiv = document.createElement('div');
-    
-//     const pageicondiv = document.createElement('div');
-//     const pagetextdiv = document.createElement('div');
-    
-//         for(let i = 0; i<navdata.length; i++){
-            
-//             pageicondiv.innerHTML = navdata[i].icon;
-//             pageicondiv.classList.add('pageiconbig','material-icons', 'md-32');
-//             pageicondiv.style.setProperty('--icolor', navdata[i].color);
-//             pagetextdiv.style.setProperty('--icolor', navdata[i].color);
-//             pagetextdiv.classList.add('textbig');
-//             pagetextdiv.textContent = design;
-    
-//             pagediv.classList.add('pagediv');
-//             pagediv.classList.remove('content');
-//             pagediv.id = design;
-       
-//             displaydiv.classList.add('display');
-    
-//             pagediv.appendChild(pageicondiv);
-//             pagediv.appendChild(pagetextdiv);
-    
-//             content.appendChild(pagediv);
-//             content.appendChild(displaydiv);
-    
-//             renderAdd();
-//             };
-//         };
-    
-
-function renderAdd(){
-const content = document.querySelector('.content');
-const addbox =  document.createElement('div');
-const addtext = document.createElement('p');
-const form = document.querySelector('#popupForm');
-
-    addbox.classList.add('addbox');
-    addbox.addEventListener('click', () => form.style.display = 'block');
-    addtext.classList.add('addtext');
-    addtext.textContent = 'Add a task';        
-
-    addbox.appendChild(addtext);
-    content.appendChild(addbox);
 }
 
