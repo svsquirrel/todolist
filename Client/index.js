@@ -1,13 +1,46 @@
 
+
 document.addEventListener('DOMContentLoaded', function () {
+    renderHeader();
     renderNavPane();
     displayPage(id = 'nav-0');
     renderPage( id = 'nav-0');
-   
-    fetch('http://localhost:5000/getAll')
-          .then(response => response.json())
-          .then(data => loadHTMLTable(data['data']));
-});
+    getMyDay();
+    getTasks();
+    getImportant();
+
+    fetch('http://localhost:5000/searchmyday')
+    .then(response => response.json())
+    .then(data => loadHTMLTable(data['data']));
+})
+    
+  
+//Load appropriate data for each page that is requested
+function getMyDay(){
+const tasksall = document.querySelector('#nav-0');
+tasksall.addEventListener('click', () => {
+    fetch('http://localhost:5000/searchmyday')
+    .then(response => response.json())
+    .then(data => loadHTMLTable(data['data']));
+})
+}
+function getTasks(){
+    const tasksall = document.querySelector('#nav-1');
+    tasksall.addEventListener('click', () => {
+        fetch('http://localhost:5000/getAll')
+        .then(response => response.json())
+        .then(data => loadHTMLTable(data['data']));
+    })
+    }
+function getImportant(){
+    const tasksall = document.querySelector('#nav-2');
+    tasksall.addEventListener('click', () => {
+        fetch('http://localhost:5000/searchimportant')
+        .then(response => response.json())
+        .then(data => loadHTMLTable(data['data']));
+    })
+    }
+
 
  //READ
 function loadHTMLTable(data){
@@ -123,8 +156,6 @@ function insertRowIntoTable(data) {
           .then(data => loadHTMLTable(data['data']));
 
     loadHTMLTable();
-
-
 }
 //DELETE & UPDATE Event Listeners
 document.querySelector('table tbody').addEventListener('click', function(event) {
@@ -190,6 +221,21 @@ function deleteRowById(id){
             loadHTMLTable();
         }
     });
+}
+//SEARCH MYDAY
+const mydaysearch = function() {
+  
+    fetch('http://localhost:5000/searchmyday')
+    .then(response => response.json())
+    .then(data => loadHTMLTable(data['data']));
+}
+
+//SEARCH IMPORTANT
+const importantsearch = function() {
+   
+    fetch('http://localhost:5000/searchimportant')
+    .then(response => response.json())
+    .then(data => loadHTMLTable(data['data']));
 }
 
 

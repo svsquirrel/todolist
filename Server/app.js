@@ -52,7 +52,28 @@ app.delete('/delete/:id', (request, response) => {
     .then(data => response.json({success : data}))
     .catch(err => console.log(err));
 });
+//search myday
+app.get('/searchmyday/', (request, response) => {
+    const { myday } = request.params;
+    const db = dbCon.getDbInstance();
 
+    const result = db.getMyDay();
+    
+    result
+    .then(data => response.json({data : data}))
+    .catch(err => console.log(err));
+})
+//search myday
+app.get('/searchimportant/', (request, response) => {
+    const { myday } = request.params;
+    const db = dbCon.getDbInstance();
+
+    const result = db.getImportant();
+    
+    result
+    .then(data => response.json({data : data}))
+    .catch(err => console.log(err));
+})
 
 
 

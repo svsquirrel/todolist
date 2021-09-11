@@ -101,7 +101,41 @@ async deleteRowById(id){
         return false;
     }
 }
+
+async getMyDay(){
+    try{
+        const response = await new Promise ((resolve, reject) => {
+            
+            const query = "SELECT * FROM tasklist WHERE myday = '1';";
+            connection.query(query,(err, results) => {
+                if(err) reject( new Error(err.message));
+                resolve(results);
+            })
+        });
+                return response;
+    
+    } catch(error){
+            console.log(error);
+        }
+    }
+    async getImportant(){
+        try{
+            const response = await new Promise ((resolve, reject) => {
+                
+                const query = "SELECT * FROM tasklist WHERE important = '1';";
+                connection.query(query,(err, results) => {
+                    if(err) reject( new Error(err.message));
+                    resolve(results);
+                })
+            });
+                    return response;
+        
+        } catch(error){
+                console.log(error);
+            }
+        }
 }
+
 
 
 

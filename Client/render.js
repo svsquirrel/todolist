@@ -1,4 +1,5 @@
 
+
  /***********USING GOOGLE ICONS FOR 'icon'*********/
  const navdata = [ 
                     {name:'My Day',   color: '#e9bd5f', icon:'wb_sunny' },
@@ -7,6 +8,14 @@
                     {name:'Planned',  color: '#2fb1b1', icon:'calendar_today'},
                     {name:'Lists',    color: '#aaa4a4', icon:'add'}
 ];
+function renderHeader(){
+    const header = document.querySelector('.header');
+    const dateofweek = document.createElement('p');
+    const dayofweek  = String(new Date());
+    const dayandmonth = dayofweek.substring(0,11);
+    dateofweek.innerHTML = dayandmonth;
+    header.appendChild(dateofweek);
+}
 
 function renderNavPane() {
     const navarea = document.querySelector('.navarea');
@@ -22,7 +31,7 @@ function renderNavPane() {
             newdiv.id = 'nav-'+[i];
             newdiv.style.setProperty('--ihover', navcolor);
             newdiv.addEventListener('click', () => {
-                content.innerHTML='';
+                //content.innerHTML='';
                 displayPage(newdiv.id);
                 renderPage(newdiv.id);
             })
@@ -65,19 +74,21 @@ function renderPage(id){
           addbtn.classList.add('addbtn');
           addbtn.textContent = 'Add a task'; 
           addbtn.style.setProperty('--icolor',navcolor);
-          addbtn.addEventListener('click', displayTaskForm);
-          sidediv.appendChild(addbtn);
+          addbtn.addEventListener('click', () =>{
+              displayTaskForm()});
+    sidediv.appendChild(addbtn);
     
     const pagediv = document.querySelector('.pagediv');
-    pagediv.style.setProperty('--icolor', navcolor);     
+          pagediv.style.setProperty('--icolor', navcolor);     
  
 }
 function displayTaskForm(){
     const form = document.querySelector('#popupForm');
     const inputs = document.getElementsByTagName('input');
+    form.style.display = 'block';
     for (var i in inputs)
         if (inputs[i].type == 'checkbox')inputs[i].checked = false;
-    form.style.display = 'block';
+    
 
 }
 
