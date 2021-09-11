@@ -1,15 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
 :root  {
-    --yellow:   #f1f163;
-    --pink:     #eea4dc;
-    --magenta:  #ee82ee;
-    --green:    #56e7c3;
+    --yellow:   #e9bd5f;
+    --pink:     #e940e9;
+    --green:    #2fb1b1;
     --blue:     #6a53f0;
     --medblue:  #2196F3;
-    --offwhite: #ece4e4;
-    --greyed:   #dce4e6;
-    --ltgray:   #343335;
+    --offwhite: #f8fafa;
+    --greyed:   #dce6e5e0;
+    --ltgray:   #c2c0c5;
     --medgray:  #3d4244;
     --dkgray:   #2a292b;
     --black:    #000000;
@@ -20,8 +19,8 @@
     --ihover:   white;
 
 }
-.material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
 
 .material-icons{
     vertical-align: middle;
@@ -29,98 +28,97 @@
 }
 
 .container {
-    display:flex;
+    display:grid;
+    grid-template-rows: 60px 100px 4fr;
     height: 100vh;
     font-family: 'Noto Sans', sans-serif;
-    background-color: var(--dkgray);
+    background-color: var(--offwhite);
  }
-
-.content{
-    width: 75%;
-    max-width: 750px;
-    position: relative;
-    text-align: left;
+.header{
+    grid-row:1;
+    padding: 0 20px 0 20px;
+    background-color: var(--offwhite);
 }
+
 /* ********** NAV SIDEBAR ***********/
 .navarea{
-    background-color:var(--medgray);
-    color: var(--offwhite);
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(5 1fr);
+    background-color: var(--offwhite);
     font-size: 16px; 
-    width: 20%;
-    max-width: 280px; 
+    width: 100%;
+    max-width: 960px; 
+    height:100px;
+  
+}
+.navdiv{
+    color: var(--dkgray);
+    padding-top: 20px;
+    text-align: center;
+    font-size: 16px;
+    border-right:1px solid var(--ltgray);
+    border-bottom:1px solid var(--ltgray);
+    border-top: 2px solid var(--ltgray);
+    cursor:pointer;
+ }
+ .navdiv:hover{
+     color: var(--ihover);
+ }
+ .active{
+    background-color: white;
+    border-bottom: none;
+ }
+#nav-0{
+    grid-column: 1;
+    margin-left:20px;
      
 }
-#nav-0{
-    padding-top: 50px;
+#nav-1{
+    grid-column: 2;
+}   
+#nav-2{
+    grid-column: 3;
+  
 }
+#nav-3{
+    grid-column: 4;
+   
+}
+#nav-4{
+    grid-column: 5;
+    
+}
+
 .iconcolor{
     color: var(--icolor);
 }
-.navdiv{
-    padding: 15px 0 20px 20px;
-    cursor: pointer;
-}
-.navdiv:hover{
-    background-color: var(--ltgray);
-    color: var(--ihover);
-}
-.navtext{
-    display: inline;
-    padding-left: 20px;
-}
-#nav-4{
-    border-top: 1px var(--greyed) solid;
-}
+
 
 /********MY DAY PAGE ***********/
-.pageiconbig{
-    display: inline;
-    vertical-align: top;
-    padding-right: 20px;
- }
-.mainimg{
-    max-width: 800px;
-    height: auto;
-}
-/* .dayinfo{
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    font-size: 28px;
-    font-weight: 500;
-    color:  var(--medgray);
-} */
-.maindate{
-    font-size: 18px;
-    font-weight: 400;
-}
-/********GENERAL PAGE STYLE******/
-.textbig {
-    font-size: 32px;
-    color: var(--icolor);
-    display: inline;
+.content{
+    grid-row: 3;
+    width: 100%;
+    max-width: 960px;
+    max-height: 500px;
+    margin:0 20px 0 20px;
+    padding-top: 20px;
+    background-color:var(--icolor);
 }
 .pagediv{
-    position: absolute;
-    top: 30px;
-    left: 70px;
+    margin-left: 20%;
+    margin-right: 5%;
+    margin-top: 3%;
+    width: 80%;
+    height: 80%;
+    border-left: 10px double var(--icolor);
 }
-.pageiconbig{
-    font-size: 32px;
-    color: var(--icolor);
-    display: inline;
-    vertical-align: top;
-    padding-right: 20px;
-}
+
 .addbox{
-    position:absolute;
-    top: 30px;
-    left: 400px;
-    border-radius: 20px;
+    border-radius: 10px;
     height: 60px;
-    width:  250px;
-    color: white;
-    text-align: center;
+    width:  100px;
+    color: var(--dkgray);
     background:rgba(170, 164, 164, 0.3);
     cursor:pointer;
 } 
@@ -128,15 +126,9 @@
     background-color: var(--green);
     height: auto;
     position: absolute;
-    top: 140px;
-    left: 20px;
-    width: 90%;
+    
 } 
-.unit{
-    background-color: var(--magenta);
-    width: 80%;
-    height: 100px;
-}
+
 /*******POP UP FORM *******/
 .enterBookPopup {
     position: relative;
@@ -304,40 +296,3 @@
     height: 100px;
     border-radius: 5px;
 }
-main {
-    position: absolute;
-    top: 100px;
-    left: 280px;
-    width: 50%;
-    margin: 50px auto;
-    text-align: center;
-}
-.display {
-    position: absolute;
-    top: 100px;
-    left: 280px;
-    width: 50%;
-    margin: 50px auto;
-    text-align: center;
-}
-table {
-    margin: 50px auto;
-    border-collapse: collapse;
-}
-
-table, th, td {
-    background-color: white;
-    color: var(--dkgray);
-    
-}
-tr {
-    border-bottom: 5px solid rgba(61, 66, 68, 0.5);
-    height: 45px;
-}
-
-th, td {
-    padding: 5px;
-    white-space: nowrap;
-}
-
-  

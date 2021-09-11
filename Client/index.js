@@ -1,8 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     renderNavPane();
-    renderPages('My Day');
-    renderAdd();
+    displayPage(id = 'nav-0');
+   // renderPages('My Day');
+   // renderAdd();
     fetch('http://localhost:5000/getAll')
           .then(response => response.json())
           .then(data => loadHTMLTable(data['data']));
@@ -19,13 +20,13 @@ function loadHTMLTable(data){
     
     let tableHtml = '';
 
-    data.forEach(function ({id, date_added, task, important}) {
+    data.forEach(function ({id, date_added, task, important, myday}) {
         tableHtml += "<tr>";
         tableHtml += `<td>${id}</td>`
         tableHtml += `<td>${new Date(date_added).toLocaleString().split(',')[0]}</td>`
         tableHtml += `<td>${task}</td>`
         tableHtml += `<td>${ important }</td>`
-        // tableHtml += `<td>${ day }</td>`
+        tableHtml += `<td>${ myday }</td>`
         // tableHtml += `<td>${note}</td>`
         //tableHtml += `<td>${ duedate }</td>`
         //tableHtml += `<td>${ complete }</td>`
@@ -58,12 +59,17 @@ submit.onclick = function() {
     }else if (importantvalue ===false){
         importantInput.value = 0;
     }
-    
     importantvalue.checked = 'false';
 
-    // const mydayInput = document.querySelector('.checkAddDay');
-    // const myday = mydayInput.checked;
-    // mydayInput.value = '';
+    const mydayInput = document.querySelector('.checkAddDay');
+    const mydayvalue = mydayInput.checked;
+
+    if(mydayvalue === true){
+        mydayInput.value = 1;
+    }else if (mydayvalue ===false){
+        mydayInput.value = 0;
+    }
+    mydayvalue.checked = 'false';
     
     // const duedateInput = document.querySelector('#duedate');
     // const duedate = duedateInput.value;
@@ -75,8 +81,9 @@ submit.onclick = function() {
         },
         method: 'POST',
          body: JSON.stringify({
-                   task : task, 
-              important : importantInput.value
+                task : task, 
+                important : importantInput.value,
+                myday: mydayInput.value
              })
     })
     .then(response => response.json())

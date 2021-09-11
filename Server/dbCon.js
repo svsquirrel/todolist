@@ -40,22 +40,23 @@ class DbCon {
         }
     }
 //CREATE
-async insertNewTask(task, important) {
+async insertNewTask(task, important, myday) {
     try{
         const dateAdded = new Date();
         const insertID = await new Promise ((resolve, reject) => {
-        const query = 'INSERT INTO tasklist (date_added, task, important) VALUES (?,?,?);';
+        const query = 'INSERT INTO tasklist (date_added, task, important, myday) VALUES (?,?,?,?);';
 
-            connection.query(query,[ dateAdded, task, important] ,(err, result)=> {
+            connection.query(query,[ dateAdded, task, important, myday] ,(err, result)=> {
                 if(err) reject( new Error(err.message));
                 resolve(result.insertID);
             })
-        });console.log(dateAdded);
+        });
             return{
                 id: insertID,
                 dateAdded: dateAdded,
                 task: task,
-                important: important
+                important: important,
+                myday: myday
             };
 
         }catch (error){
