@@ -31,9 +31,10 @@ function renderNavPane() {
             newdiv.id = 'nav-'+[i];
             newdiv.style.setProperty('--ihover', navcolor);
             newdiv.addEventListener('click', () => {
-                //content.innerHTML='';
-                displayPage(newdiv.id);
-                renderPage(newdiv.id);
+                    displayPage(newdiv.id);
+                    renderPage(newdiv.id);
+                    getPageData(newdiv.id);
+                
             })
                
             const newicon = document.createElement('div');
@@ -52,6 +53,7 @@ function renderNavPane() {
         }; 
 
     }
+
 function displayPage(id){
     
     const thisdiv = document.getElementById(id);
@@ -62,6 +64,7 @@ function displayPage(id){
         thisdiv.classList.add('active');
     });
 }
+
 
 function renderPage(id){
     id = parseInt(id.substring(4)) ;
@@ -82,6 +85,7 @@ function renderPage(id){
           pagediv.style.setProperty('--icolor', navcolor);     
  
 }
+
 function displayTaskForm(){
     const form = document.querySelector('#popupForm');
     const inputs = document.getElementsByTagName('input');

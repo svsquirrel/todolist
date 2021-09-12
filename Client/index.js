@@ -1,68 +1,49 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
     renderHeader();
     renderNavPane();
     displayPage(id = 'nav-0');
     renderPage( id = 'nav-0');
-    getMyDay();
-    getTasks();
-    getImportant();
-
+   
     fetch('http://localhost:5000/searchmyday')
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
 })
+//DELETE & UPDATE Event Listeners
+document.querySelector('table tbody').addEventListener('click', function(event) {
+    if (event.target.className === "delete-row-btn") {
+        deleteRowById(event.target.dataset.id);
+    }
+    if (event.target.className === "edit-row-btn") {
+       handleEditRow(event.target.dataset.id);
+    }
+});
+
+function getPageData(id){
+    let page = ''
     
-  
-//Load appropriate data for each page that is requested
-function getMyDay(){
-const tasksall = document.querySelector('#nav-0');
-tasksall.addEventListener('click', () => {
-    fetch('http://localhost:5000/searchmyday')
+    if (id == 'nav-0'){
+        page = 'searchmyday';
+    } else if (id == 'nav-1'){
+        page = 'getAll';
+    }else if (id == 'nav-2'){
+        page = 'searchimportant';
+    }
+    fetch ('http://localhost:5000/' + page)
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
-})
 }
-function getTasks(){
-    const tasksall = document.querySelector('#nav-1');
-    tasksall.addEventListener('click', () => {
-        fetch('http://localhost:5000/getAll')
-        .then(response => response.json())
-        .then(data => loadHTMLTable(data['data']));
-    })
-    }
-function getImportant(){
-    const tasksall = document.querySelector('#nav-2');
-    tasksall.addEventListener('click', () => {
-        fetch('http://localhost:5000/searchimportant')
-        .then(response => response.json())
-        .then(data => loadHTMLTable(data['data']));
-    })
-    }
-
 
  //READ
 function loadHTMLTable(data){
     const table = document.querySelector('table tbody');
-    
-    if (data.length === 0) {
-        table.innerHTML = '<tr><td class = "no-data" colspan ="5">No Data</td></tr>';
-        return;
-    }
+    while (table.firstChild)table.removeChild(table.firstChild);
     
     let tableHtml = '';
 
-    data.forEach(function ({id, date_added, task, important, myday}) {
+    data.forEach(function ({id, task, important}) {
         tableHtml += "<tr>";
-        tableHtml += `<td>${id}</td>`
-        tableHtml += `<td>${new Date(date_added).toLocaleString().split(',')[0]}</td>`
         tableHtml += `<td>${task}</td>`
-        tableHtml += `<td>${ important }</td>`
-        tableHtml += `<td>${ myday }</td>`
-        // tableHtml += `<td>${note}</td>`
-        //tableHtml += `<td>${ duedate }</td>`
-        //tableHtml += `<td>${ complete }</td>`
+        tableHtml += `<td>${important}</td>`       
         tableHtml += `<td><button class = 'delete-row-btn' data-id = ${ id }>Delete</td>`
         tableHtml += `<td><button class='edit-row-btn' data-id=${ id }>Edit</td>`
         tableHtml += "</tr>";
@@ -70,7 +51,6 @@ function loadHTMLTable(data){
 
     table.innerHTML = tableHtml;
 }
-
 
 const form = document.querySelector('#popupForm');    
 const cancelform = document.querySelector('.closeicon');
@@ -157,15 +137,7 @@ function insertRowIntoTable(data) {
 
     loadHTMLTable();
 }
-//DELETE & UPDATE Event Listeners
-document.querySelector('table tbody').addEventListener('click', function(event) {
-    if (event.target.className === "delete-row-btn") {
-        deleteRowById(event.target.dataset.id);
-    }
-    if (event.target.className === "edit-row-btn") {
-       handleEditRow(event.target.dataset.id);
-    }
-});
+
 
 //UPDATE
 const updateBtn = document.querySelector('#update-row-btn');
@@ -195,6 +167,7 @@ function handleEditRow(id) {
     .then(data => {
         if (data.success) {
             tableHtml = '';
+            updateSection.hidden = true;
             fetch('http://localhost:5000/getAll')
                   .then(response => response.json())
                   .then(data => loadHTMLTable(data['data']));
@@ -203,7 +176,7 @@ function handleEditRow(id) {
         }
     })
     })
-
+    //updateSection.hidden = true;
 }
 //DELETE
 function deleteRowById(id){
@@ -222,20 +195,4 @@ function deleteRowById(id){
         }
     });
 }
-//SEARCH MYDAY
-const mydaysearch = function() {
-  
-    fetch('http://localhost:5000/searchmyday')
-    .then(response => response.json())
-    .then(data => loadHTMLTable(data['data']));
-}
-
-//SEARCH IMPORTANT
-const importantsearch = function() {
-   
-    fetch('http://localhost:5000/searchimportant')
-    .then(response => response.json())
-    .then(data => loadHTMLTable(data['data']));
-}
-
 

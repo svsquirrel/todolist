@@ -118,7 +118,7 @@ async getMyDay(){
             console.log(error);
         }
     }
-    async getImportant(){
+async getImportant(){
         try{
             const response = await new Promise ((resolve, reject) => {
                 

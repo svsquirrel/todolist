@@ -129,16 +129,37 @@
     top: 250px;
     grid-column:2;
     padding-left: 30px;
-    
- }
+  }
  td {
      padding: 10px 10px 15px 0;
      border-bottom: 1px solid var(--blue);
  }
-.tr{
-    border: 1px solid var(--blue);
-}
-
+ .td-important{
+     color: var(--pink);
+ }
+ .unmarked{
+     color: var(--blue);
+ }
+ .edit-row-btn{
+     border:none;
+     background-color: white;
+     color: var(--dkgreen);
+     cursor: pointer;
+     opacity: .4;
+ }
+ .edit-row-btn:hover{
+     opacity: 1;
+ }
+ .delete-row-btn{
+     border: none;
+     background-color: white;
+     color: var(--dkred);
+     cursor:pointer;
+     opacity: .5;
+ }
+ .delete-row-btn:hover{
+     opacity:1;
+ }
 /*******POP UP FORM *******/
 .enterBookPopup {
     position: relative;
