@@ -4,7 +4,7 @@
  const navdata = [ 
                     {name:'My Day',   color: '#e9bd5f', icon:'wb_sunny' },
                     {name:'Tasks',    color: '#6a53f0', icon:'home'},
-                    {name:'Important',color: '#e940e9', icon:'star_border'},
+                    {name:'Important',color: '#e940e9', icon:'star'},
                     {name:'Planned',  color: '#2fb1b1', icon:'calendar_today'},
                     {name:'Lists',    color: '#aaa4a4', icon:'add'}
 ];

@@ -30,6 +30,10 @@
     height: 100vh;
     font-family: 'Noto Sans', sans-serif;
     background-color: var(--offwhite);
+    width: 1000px;
+    margin: auto;
+    border: 5px solid var(--medgray);
+    border-radius: 20px;
  }
 .header{
     height: 60px;
@@ -92,11 +96,14 @@
 .content{
     display:grid;
     grid-template-columns: 1fr 5fr;
+    margin-left: 20px;
     width: 100%;
     max-width: 960px;
     min-height: 500px;
     max-height: 500px;
     background-color:var(--icolor);
+    border-bottom: 5px solid var(--medgray);
+    border-radius: 10px;
 }
 /***********SIDE***************/
 .sidediv{
@@ -121,45 +128,47 @@
 }
 .pagediv{
     grid-column: 2;
-    border-left: 1px solid var(--icolor);
+    
+    border-top: 5px double var(--icolor);
+    border-radius: 20px;
+    margin-top: 50px;
     padding-left: 50px;
 }
-#table{
-    position: absolute;
-    top: 250px;
-    grid-column:2;
-    padding-left: 30px;
-  }
- td {
-     padding: 10px 10px 15px 0;
-     border-bottom: 1px solid var(--blue);
- }
- .td-important{
-     color: var(--pink);
- }
- .unmarked{
-     color: var(--blue);
- }
- .edit-row-btn{
-     border:none;
-     background-color: white;
-     color: var(--dkgreen);
-     cursor: pointer;
-     opacity: .4;
- }
- .edit-row-btn:hover{
-     opacity: 1;
- }
- .delete-row-btn{
-     border: none;
-     background-color: white;
-     color: var(--dkred);
-     cursor:pointer;
-     opacity: .5;
- }
- .delete-row-btn:hover{
-     opacity:1;
- }
+
+.dataLine{
+    display: grid;
+    grid-template-columns: 300px 48px 48px 48px;
+    border-bottom: 1px solid var(--blue);
+    padding: 20px;
+}
+.line {
+   grid-column: 1;
+   display: inline; 
+   
+}
+.impValue{
+    display: inline; 
+    color:  var(--pink);
+}
+.deleterequest{
+    display: inline; 
+    color: var(--dkred);
+    cursor: pointer;
+    opacity: .6;
+}
+.editrequest{
+    display: inline;
+    color: var(--dkgreen);
+    cursor: pointer;
+    opacity: .6; 
+}
+.deleterequest:hover{
+    opacity: 1;
+}
+.editrequest:hover{
+    opacity: 1;
+}
+
 /*******POP UP FORM *******/
 .enterBookPopup {
     position: relative;

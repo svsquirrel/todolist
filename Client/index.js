@@ -6,17 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
    
     fetch('http://localhost:5000/searchmyday')
     .then(response => response.json())
-    .then(data => loadHTMLTable(data['data']));
+    .then(data => loadData(data['data']));
 })
-//DELETE & UPDATE Event Listeners
-document.querySelector('table tbody').addEventListener('click', function(event) {
-    if (event.target.className === "delete-row-btn") {
-        deleteRowById(event.target.dataset.id);
-    }
-    if (event.target.className === "edit-row-btn") {
-       handleEditRow(event.target.dataset.id);
-    }
-});
+
 
 function getPageData(id){
     let page = ''
@@ -30,26 +22,49 @@ function getPageData(id){
     }
     fetch ('http://localhost:5000/' + page)
     .then(response => response.json())
-    .then(data => loadHTMLTable(data['data']));
+    .then(data => loadData(data['data']));
 }
+function loadData(data){
+    const pagediv = document.querySelector('.pagediv');
+    pagediv.innerHTML = '';
 
- //READ
-function loadHTMLTable(data){
-    const table = document.querySelector('table tbody');
-    while (table.firstChild)table.removeChild(table.firstChild);
-    
-    let tableHtml = '';
+    data.forEach(function ({id, task, important}){
+        const dataLine = document.createElement('div');
+        const line = document.createElement('p');
+        const importanticon = document.createElement('div');
+        const deleteicon = document.createElement('div');
+        const editicon = document.createElement('div');
 
-    data.forEach(function ({id, task, important}) {
-        tableHtml += "<tr>";
-        tableHtml += `<td>${task}</td>`
-        tableHtml += `<td>${important}</td>`       
-        tableHtml += `<td><button class = 'delete-row-btn' data-id = ${ id }>Delete</td>`
-        tableHtml += `<td><button class='edit-row-btn' data-id=${ id }>Edit</td>`
-        tableHtml += "</tr>";
+        dataLine.classList.add('dataLine')
+        line.classList.add('line')
+        importanticon.classList.add('material-icons', 'impValue');
+        deleteicon.classList.add('material-icons', 'deleterequest');
+        editicon.classList.add('material-icons', 'editrequest');
+
+        line.textContent = `${ task }`;
+        line.dataset.id = `${ id }`;
+        importanticon.value = `${ important }`;
+        importanticon.innerHTML = 'star_border';
+            if (importanticon.value ==0){
+                importanticon.innerHTML = 'star_border';
+            }else if (importanticon.value ==1){
+                importanticon.innerHTML = 'star';
+            }
+        deleteicon.innerHTML = 'delete_outlined';
+        deleteicon.dataset.id = `${ id }`;
+        editicon.innerHTML = 'edit';
+        editicon.dataset.id = `${ id }`;
+
+        deleteicon.addEventListener('click', () => {
+            deleteRowById(id);
+        }); 
+
+        dataLine.appendChild(line);
+        dataLine.appendChild(importanticon);
+        dataLine.appendChild(deleteicon);
+        dataLine.appendChild(editicon);
+        pagediv.appendChild(dataLine);
     });
-
-    table.innerHTML = tableHtml;
 }
 
 const form = document.querySelector('#popupForm');    
@@ -133,11 +148,10 @@ function insertRowIntoTable(data) {
     tableHtml = '';
     fetch('http://localhost:5000/getAll')
           .then(response => response.json())
-          .then(data => loadHTMLTable(data['data']));
+          .then(data => loadData(data['data']));
 
-    loadHTMLTable();
+    //loadHTMLTable();
 }
-
 
 //UPDATE
 const updateBtn = document.querySelector('#update-row-btn');
@@ -170,13 +184,13 @@ function handleEditRow(id) {
             updateSection.hidden = true;
             fetch('http://localhost:5000/getAll')
                   .then(response => response.json())
-                  .then(data => loadHTMLTable(data['data']));
+                  .then(data => loadData(data['data']));
         
-            loadHTMLTable();
+            loadData();
         }
     })
     })
-    //updateSection.hidden = true;
+  
 }
 //DELETE
 function deleteRowById(id){
@@ -189,9 +203,9 @@ function deleteRowById(id){
             tableHtml = '';
             fetch('http://localhost:5000/getAll')
                   .then(response => response.json())
-                  .then(data => loadHTMLTable(data['data']));
+                  .then(data => loadData(data['data']));
         
-            loadHTMLTable();
+           // loadData();
         }
     });
 }
