@@ -34,7 +34,6 @@ function renderNavPane() {
                     displayPage(newdiv.id);
                     renderPage(newdiv.id);
                     getPageData(newdiv.id);
-                
             })
                
             const newicon = document.createElement('div');
@@ -65,34 +64,41 @@ function displayPage(id){
     });
 }
 
-
 function renderPage(id){
+    
+    const content = document.querySelector('.content');
+    content.innerHTML = '';
+    
+    
     id = parseInt(id.substring(4)) ;
     navdata.id = id;
     
     const navcolor = navdata[id].color;
-    const sidediv = document.querySelector('.sidediv');
+    const sidediv = document.createElement('div');
+          sidediv.classList.add('sidediv');
    
     const addbtn =  document.createElement('button');
           addbtn.classList.add('addbtn');
           addbtn.textContent = 'Add a task'; 
           addbtn.style.setProperty('--icolor',navcolor);
           addbtn.addEventListener('click', () =>{
-              displayTaskForm()});
+                 displayTaskForm(id)});
     sidediv.appendChild(addbtn);
     
-    const pagediv = document.querySelector('.pagediv');
-          pagediv.style.setProperty('--icolor', navcolor);     
- 
+    const pagediv = document.createElement('div');
+          pagediv.classList.add('pagediv', 'page-' + id);
+          pagediv.style.setProperty('--icolor', navcolor);  
+    
+    content.appendChild(sidediv);
+    content.appendChild(pagediv);
 }
 
-function displayTaskForm(){
-    const form = document.querySelector('#popupForm');
+function displayTaskForm(id){
+    const formPage = document.querySelector('.formContainer');
+    formPage.dataset.id = id;
     const inputs = document.getElementsByTagName('input');
     form.style.display = 'block';
     for (var i in inputs)
         if (inputs[i].type == 'checkbox')inputs[i].checked = false;
-    
-
 }
 

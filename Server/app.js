@@ -42,6 +42,16 @@ app.patch('/update', (request, response) => {
     .then(data => response.json({success : data}))
     .catch(err => console.log(err));
 });
+// update important
+app.patch('/updateimportant', (request, response) => {
+    const { id, important } = request.body;
+    const db = dbCon.getDbInstance();
+    const result = db.updateImportantById(id, important);
+    
+    result
+    .then(data => response.json({success : data}))
+    .catch(err => console.log(err));
+});
 // delete
 app.delete('/delete/:id', (request, response) => {
     const { id } = request.params;

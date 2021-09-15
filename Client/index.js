@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(data => loadData(data['data']));
 })
 
-
 function getPageData(id){
     let page = ''
     
@@ -24,9 +23,11 @@ function getPageData(id){
     .then(response => response.json())
     .then(data => loadData(data['data']));
 }
+
 function loadData(data){
     const pagediv = document.querySelector('.pagediv');
     pagediv.innerHTML = '';
+    
 
     data.forEach(function ({id, task, important}){
         const dataLine = document.createElement('div');
@@ -37,19 +38,22 @@ function loadData(data){
 
         dataLine.classList.add('dataLine')
         line.classList.add('line')
-        importanticon.classList.add('material-icons', 'impValue');
-        deleteicon.classList.add('material-icons', 'deleterequest');
-        editicon.classList.add('material-icons', 'editrequest');
+        importanticon.classList.add('material-icons','md-30', 'impValue');
+        deleteicon.classList.add('material-icons','md-30', 'deleterequest');
+        editicon.classList.add('material-icons','md-30', 'editrequest');
 
         line.textContent = `${ task }`;
         line.dataset.id = `${ id }`;
         importanticon.value = `${ important }`;
-        importanticon.innerHTML = 'star_border';
+        importanticon.dataset.id = `${ id }`;
             if (importanticon.value ==0){
                 importanticon.innerHTML = 'star_border';
             }else if (importanticon.value ==1){
                 importanticon.innerHTML = 'star';
             }
+        importanticon.addEventListener('click', () => {
+            changeImportantStatus(id);
+        })
         deleteicon.innerHTML = 'delete_outlined';
         deleteicon.dataset.id = `${ id }`;
         editicon.innerHTML = 'edit';
@@ -58,6 +62,9 @@ function loadData(data){
         deleteicon.addEventListener('click', () => {
             deleteRowById(id);
         }); 
+        editicon.addEventListener('click', () => {
+            handleEditRow(id);
+        });
 
         dataLine.appendChild(line);
         dataLine.appendChild(importanticon);
@@ -74,6 +81,8 @@ const cancelform = document.querySelector('.closeicon');
 //CREATE
 const submit = document.querySelector('.submiticon');
 submit.onclick = function() {
+    const formPageRaw = document.querySelector('.formContainer').dataset.id;
+    const formPage = 'nav-'+formPageRaw;
     form.style.display = 'none';
     const taskInput = document.querySelector('.task');
     const task = taskInput.value;
@@ -115,46 +124,12 @@ submit.onclick = function() {
              })
     })
     .then(response => response.json())
-    .then(data => insertRowIntoTable(data['data']));
+    .then(getPageData(formPage));
 }
 
-function insertRowIntoTable(data) {
-    const table = document.querySelector('table tbody');
-    const isTableData = table.querySelector('.no-data');
-
-    let tableHtml = '<tr>';
-
-    for (var key in data){
-        if(data.hasOwnProperty(key)) {
-            if( key === 'dateAdded'){
-                data[key] = new Date(data[key]).toLocaleString();
-            }
-            tableHtml += `<td>${ data[key] }</td>`;
-        }
-    }
-
-    tableHtml += `<td><button class ='delete-row-btn'  data-id = ${ data.id }>Delete</td>`
-    tableHtml += `<td><button class='edit-row-btn' data-id=${ data.id }>Edit</td>`
-    
-    tableHtml += '</tr>';
-
-    if (isTableData){
-        table.innerHTML = tableHtml;
-    } else {
-        const newRow = table.insertRow();
-        newRow.innerHTML = tableHtml;
-    }
-
-    tableHtml = '';
-    fetch('http://localhost:5000/getAll')
-          .then(response => response.json())
-          .then(data => loadData(data['data']));
-
-    //loadHTMLTable();
-}
-
-//UPDATE
+//UPDATE TASK
 const updateBtn = document.querySelector('#update-row-btn');
+const content = document.querySelector('.content');
 
 function handleEditRow(id) {
     const updateSection = document.querySelector('#update-row');
@@ -166,7 +141,6 @@ function handleEditRow(id) {
     const updateTaskInput = document.querySelector('#update-task-input');
    
     fetch('http://localhost:5000/update', {
-       
         method: "PATCH",  
         headers: { 
             'Content-type' : 'application/json'
@@ -180,18 +154,48 @@ function handleEditRow(id) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            tableHtml = '';
+            content.innerHTML = '';
             updateSection.hidden = true;
             fetch('http://localhost:5000/getAll')
                   .then(response => response.json())
                   .then(data => loadData(data['data']));
-        
-            loadData();
         }
     })
     })
   
 }
+//UPDATE IMPORTANT
+function changeImportantStatus(id){
+        
+    const importantIcon = document.querySelector('.impValue');
+    if (importantIcon.value == 1){
+        importantIcon.value = 0
+    }else if (importantIcon.value == 0){
+        importantIcon.value = 1
+    }
+    
+    fetch('http://localhost:5000/updateimportant', {
+        method: "PATCH",  
+        headers: { 
+            'Content-type' : 'application/json'
+         },
+        body: JSON.stringify({ 
+            id :  importantIcon.dataset.id,
+            important: importantIcon.value
+        })
+    })
+    
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            content.innerHTML = '';
+                  fetch('http://localhost:5000/getAll')
+                  .then(response => response.json())
+                  .then(data => loadData(data['data']));
+        }
+    })
+    }
+
 //DELETE
 function deleteRowById(id){
     fetch('http://localhost:5000/delete/'+ id, {
@@ -204,8 +208,6 @@ function deleteRowById(id){
             fetch('http://localhost:5000/getAll')
                   .then(response => response.json())
                   .then(data => loadData(data['data']));
-        
-           // loadData();
         }
     });
 }
