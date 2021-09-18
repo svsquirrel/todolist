@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,55 +8,57 @@
     <title>ToDo List</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel='stylesheet' href = 'style.css'>
+    <link rel='stylesheet' href='style.css'>
 </head>
+
 <body>
-    <div class = 'container'>
-        <div class = 'header'>Planner</div>
-        <div class = 'navarea '></div>
-        <div class = 'content '> </div>
-            <section hidden id="update-row">
-                <label>Task:</label>
-                <input type="text" id="update-task-input">
-                <button id="update-row-btn">Update</button>
-            </section>
-        </div>      
+    <div class='container'>
+        <div class='header'>Planner</div>
+        <div class='navarea '></div>
+        <div class='content '> </div>
+        <section hidden id="update-row">
+            <label>Task:</label>
+            <input type="text" id="update-task-input">
+            <button id="update-row-btn">Update</button>
+        </section>
     </div>
-    
-<div class = 'enterBookPopup'>
-    <div class = 'formPopup' id = 'popupForm'>
-        <form  class = 'formContainer'>
-            <div class = 'icondiv'>
-                <label >
-                <input type = 'checkbox' class = 'starcheck' value = 'important'>
-                <section class = 'staricon'>
-                    <i id = 'starbtn' class = 'material-icons md-36 starcheck'></i>
-                </section>
-                </label> 
-                
-                <i class = 'material-icons md-36 submiticon' name = 'submit'>done</i>
-                <i class = 'material-icons md-36 closeicon'>cancel</i>
-            </div>
-            <div class = 'taskentry'>
-                <label for = 'title'>Task</label>
-                <input type = 'text' class = 'task' placeholder='Task' name = 'task'>
-            </div>
-            <div>
-                <label class = 'due'> Due Date </label>
-                <input class = 'dateicon' type = 'date' id = 'duedate' name = 'duedate'></input>
-            </div>
-            <div class = 'addToDay'>
-                <label class = 'checkcontainer'>Add to My Day
-                <input type = 'checkbox' class = 'checkAddDay' value = 'myday'>
-                <span class = 'checkmark'></span>
-                </label>
-            </div>
-        </form>
     </div>
-</div> 
-    
-  <script type="text/javascript" src = 'render.js' ></script> 
-  <script type="text/javascript" src = 'index.js' ></script> 
-   
+
+    <div class='enterBookPopup'>
+        <div class='formPopup' id='popupForm'>
+            <form class='formContainer'>
+                <div class='icondiv'>
+                    <label>
+                        <input type='checkbox' class='starcheck' value='important'>
+                        <section class='staricon'>
+                            <i id='starbtn' class='material-icons md-36 starcheck'></i>
+                        </section>
+                    </label>
+
+                    <i class='material-icons md-36 submiticon' name='submit'>done</i>
+                    <i class='material-icons md-36 closeicon'>cancel</i>
+                </div>
+                <div class='taskentry'>
+                    <label for='title'>Task</label>
+                    <input type='text' class='task' placeholder='Task' name='task'>
+                </div>
+                <div>
+                    <label class='due'> Due Date </label>
+                    <input class='dateicon' type='date' id='duedate' name='duedate'></input>
+                </div>
+                <div class='addToDay'>
+                    <label class='checkcontainer'>Add to My Day
+                        <input type='checkbox' class='checkAddDay' value='myday'>
+                        <span class='checkmark'></span>
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" src='render.js'></script>
+    <script type="text/javascript" src='index.js'></script>
+
 </body>
+
 </html>
