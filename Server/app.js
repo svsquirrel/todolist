@@ -23,9 +23,9 @@ app.get('/getAll', (request, response) => {
 });
 //create
 app.post('/insert', (request, response) => {
-    const { task, important, myday } = request.body;
+    const { task, important, myday, duedate } = request.body;
     const db = dbCon.getDbInstance();
-    const result = db.insertNewTask(task, important, myday);
+    const result = db.insertNewTask(task, important, myday, duedate);
 
     result
         .then(data => response.json({ data: data }))

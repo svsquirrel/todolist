@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function getPageData(id) {
     let page = ''
-
     if (id == 0) {
         page = 'searchmyday';
     } else if (id == 1) {
@@ -28,21 +27,33 @@ function loadData(data) {
     const pagediv = document.querySelector('.pagediv');
     pagediv.innerHTML = '';
 
-    data.forEach(function ({ id, task, important }) {
+    data.forEach(function ({ id, task, important, duedate }) {
         const dataLine = document.createElement('div');
         const line = document.createElement('p');
+        const dday = document.createElement('p');
         const importanticon = document.createElement('div');
         const deleteicon = document.createElement('div');
         const editicon = document.createElement('div');
 
-        dataLine.classList.add('dataLine')
-        line.classList.add('line')
+        dataLine.classList.add('dataLine');
+        line.classList.add('line');
+        dday.classList.add('dday');
         importanticon.classList.add('material-icons', 'md-30', 'impValue');
         deleteicon.classList.add('material-icons', 'md-30', 'deleterequest');
         editicon.classList.add('material-icons', 'md-30', 'editrequest');
 
         line.textContent = `${task}`;
         line.dataset.id = `${id}`;
+        console.log(`${duedate}`);
+        if (`${duedate}!==null`){
+            dday.innerHTML ='Due ' + `${duedate}`.split('T')[0];
+        }else {
+       
+            dday.innerHTML = '';
+        };
+       
+        
+           
         importanticon.value = `${important}`;
         if (importanticon.value =='0') {
             importanticon.innerHTML = 'star_border';
@@ -66,6 +77,7 @@ function loadData(data) {
         });
 
         dataLine.appendChild(line);
+        dataLine.appendChild(dday);
         dataLine.appendChild(importanticon);
         dataLine.appendChild(deleteicon);
         dataLine.appendChild(editicon);
@@ -95,9 +107,9 @@ submit.onclick = function () {
     const mydayvalue = mydayInput.checked;
           mydayInput.checked = 'false';
 
-    // const duedateInput = document.querySelector('#duedate');
-    // const duedate = duedateInput.value;
-    // duedateInput.value = '';
+    const duedateInput = document.querySelector('#duedate');
+    const duedate = duedateInput.value;
+          duedateInput.value = '';
 
     fetch('http://localhost:5000/insert', {
         headers: {
@@ -107,7 +119,8 @@ submit.onclick = function () {
         body: JSON.stringify({
             task: task,
             important: importantvalue,
-            myday: mydayvalue
+            myday: mydayvalue,
+            duedate: duedate
         })
     })
         .then(response => response.json())
@@ -149,21 +162,15 @@ function handleEditRow(id) {
                 }
             })
     })
-
 }
+
 //UPDATE IMPORTANT
-//is only changing the first one on the page when anyone of them is clicked
 function toggleImportantStatus(id,importantvalue) {
-    const pageSrc = document.querySelector('.pagediv');
-    const pageId = pageSrc.dataset.id;
-    console.log('this is '+importantvalue);
-    let importantBoolean = importantvalue == 1 ? true : false ;
-    console.log('before' + importantBoolean);
-    importantBoolean = !importantBoolean;
-    console.log(importantBoolean + 'after');
-    
-    
+    const pageSrc = document.querySelector('.pagediv').dataset.id;
   
+    let importantBoolean = importantvalue == 1 ? true : false ;
+        importantBoolean = !importantBoolean;
+      
     fetch('http://localhost:5000/updateimportant', {
         method: "PATCH",
         headers: {
@@ -177,14 +184,10 @@ function toggleImportantStatus(id,importantvalue) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                content.innerHTML = '';
-                fetch('http://localhost:5000/getAll')
-                    .then(response => response.json())
-                    .then(data => loadData(data['data']));
+                getPageData(pageSrc);
             }
         });
 }
-
 
 //DELETE
 function deleteRowById(id) {
