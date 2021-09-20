@@ -19,8 +19,7 @@ function renderHeader() {
 
 function renderNavPane() {
     const navarea = document.querySelector('.navarea');
-    const content = document.querySelector('.content');
-    for (let i = 0; i < navdata.length; i++) {
+       for (let i = 0; i < navdata.length; i++) {
 
         const navname = navdata[i].name;
         const navicon = navdata[i].icon;
@@ -80,7 +79,7 @@ function renderPage(id) {
     addbtn.textContent = 'Add a task';
     addbtn.style.setProperty('--icolor', navcolor);
     addbtn.addEventListener('click', () => {
-        displayTaskForm(id)
+        displayCreateTaskForm(id)
     });
     sidediv.appendChild(addbtn);
 
@@ -93,7 +92,7 @@ function renderPage(id) {
     content.appendChild(pagediv);
 }
 
-function displayTaskForm(id) {
+function displayCreateTaskForm(id) {
     const formPage = document.querySelector('.formContainer');
     formPage.dataset.id = id;
     const inputs = document.getElementsByTagName('input');

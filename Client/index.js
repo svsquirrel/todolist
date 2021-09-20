@@ -1,3 +1,4 @@
+//should i make tool tips for the complete button
 document.addEventListener('DOMContentLoaded', function () {
     renderHeader();
     renderNavPane();
@@ -27,8 +28,9 @@ function loadData(data) {
     const pagediv = document.querySelector('.pagediv');
     pagediv.innerHTML = '';
 
-    data.forEach(function ({ id, task, important, duedate }) {
+    data.forEach(function ({ id, task, important, duedate , complete}) {
         const dataLine = document.createElement('div');
+        const completeIcon = document.createElement('div');
         const line = document.createElement('p');
         const dday = document.createElement('p');
         const importanticon = document.createElement('div');
@@ -36,24 +38,28 @@ function loadData(data) {
         const editicon = document.createElement('div');
 
         dataLine.classList.add('dataLine');
+        completeIcon.classList.add('completeIcon', 'md-30', 'material-icons')
         line.classList.add('line');
         dday.classList.add('dday');
         importanticon.classList.add('material-icons', 'md-30', 'impValue');
         deleteicon.classList.add('material-icons', 'md-30', 'deleterequest');
         editicon.classList.add('material-icons', 'md-30', 'editrequest');
 
+        completeIcon.dataset.id = `${ id }`;
+        completeIcon.value = `${ complete }`;
+            if (completeIcon.value =='0') {
+                 completeIcon.innerHTML = 'radio_button_unchecked';
+            } else if (completeIcon.value == '1') {
+                completeIcon.innerHTML ='check_circle';
+            }
+
         line.textContent = `${task}`;
         line.dataset.id = `${id}`;
-        console.log(`${duedate}`);
-        if (`${duedate}!==null`){
-            dday.innerHTML ='Due ' + `${duedate}`.split('T')[0];
-        }else {
-       
-            dday.innerHTML = '';
-        };
-       
-        
-           
+            if ( `${duedate}`.split('T')[0]==='0000-00-00'){
+                dday.innerHTML = '';
+            }else { 
+                dday.innerHTML ='Due ' + `${duedate}`.split('T')[0]
+            };
         importanticon.value = `${important}`;
         if (importanticon.value =='0') {
             importanticon.innerHTML = 'star_border';
@@ -66,6 +72,9 @@ function loadData(data) {
         editicon.innerHTML = 'edit';
         editicon.dataset.id = `${id}`;
 
+        completeIcon.addEventListener('click', () => {
+            changeToComplete(id, completeIcon.value);
+        })
         importanticon.addEventListener('click', () => {
             toggleImportantStatus(id, importanticon.value);
         })
@@ -76,6 +85,7 @@ function loadData(data) {
             handleEditRow(id);
         });
 
+        dataLine.appendChild(completeIcon);
         dataLine.appendChild(line);
         dataLine.appendChild(dday);
         dataLine.appendChild(importanticon);
@@ -179,6 +189,31 @@ function toggleImportantStatus(id,importantvalue) {
         body: JSON.stringify({
             id: id,
             important: importantBoolean
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                getPageData(pageSrc);
+            }
+        });
+}
+//UPDATE COMPLETE
+function changeToComplete(id, completeIconValue){
+    
+    const pageSrc = document.querySelector('.pagediv').dataset.id;
+  
+    let completeBoolean = completeIconValue == 1 ? true : false ;
+        completeBoolean = !completeBoolean;
+      
+    fetch('http://localhost:5000/updatecomplete', {
+        method: "PATCH",
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id,
+            complete: completeBoolean
         })
     })
         .then(response => response.json())

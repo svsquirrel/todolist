@@ -102,6 +102,25 @@ class DbCon {
             return false;
         }
     }
+    //UPDATE COMPLETE
+    async updateCompleteById(id, complete) {
+        try {
+            id = parseInt(id, 10);
+            const response = await new Promise((resolve, reject) => {
+                const query = "UPDATE tasklist SET complete = ? WHERE id = ?";
+
+                connection.query(query, [complete, id], (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result.affectedRows);
+                })
+            });
+
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
     //DELETE
     async deleteRowById(id) {
         try {
